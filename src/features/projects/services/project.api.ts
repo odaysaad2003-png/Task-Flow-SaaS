@@ -3,13 +3,13 @@ import type { PopulatedProject } from "@/features/projects/types/project.type";
 import type { CreateProjectInput, UpdateProjectInput } from "@/features/projects/schemas/project.schema";
 import type { PaginatedResponse } from "@/types/shared.type";
 
-export interface ProjectFilters {
-  status?: string;
-  clientId?: string;
-  priority?: string;
-  search?: string;
-  page?: number;
-  limit?: number;
+export interface ProjectFilters extends Record<string, string | number | boolean | undefined> {
+    status?: string;
+    clientId?: string;
+    priority?: string;
+    search?: string;
+    page?: number;
+    limit?: number;
 }
 
 export const projectApi = {

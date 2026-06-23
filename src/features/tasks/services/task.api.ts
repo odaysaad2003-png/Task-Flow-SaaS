@@ -2,11 +2,12 @@ import { apiClient } from "@/lib/api-client";
 import type { PopulatedTask } from "@/features/tasks/types/task.type";
 import type { CreateTaskInput, UpdateTaskInput } from "@/features/tasks/schemas/task.schema";
 
-export interface TaskFilters {
-  projectId?: string;
-  status?: string;
-  priority?: string;
-  assigneeId?: string;
+export interface TaskFilters extends Record<string, string | number | boolean | undefined> {
+    status?: string;
+    projectId?: string;
+    assigneeId?: string;
+    page?: number;
+    limit?: number;
 }
 
 export const taskApi = {
