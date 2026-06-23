@@ -4,31 +4,79 @@ import {getUserById, simulateDelay, logActivity} from "@/lib/mock-db.helpers";
 import {updateTaskSchema} from "@/features/tasks/schemas/task.schema";
 import type {PopulatedTask} from "@/features/tasks/types/task.type";
 
+type TaskRouteContext = {
+    params: Promise<{
+        id: string;
+    }>;
+};
+
 function buildPopulated(task: typeof db.tasks[0]): PopulatedTask {
     const assignee = task.assigneeId ? getUserById(task.assigneeId) : null;
     const {assigneeId, ...rest} = task;
+
     void assigneeId;
+
     return {
         ...rest,
-        assignee: assignee ? {id: assignee.id, name: assignee.name, avatarUrl: assignee.avatarUrl} : null,
+        assignee: assignee
+            ? {
+                  id: assignee.id,
+                  name: assignee.name,
+                  avatarUrl: assignee.avatarUrl,
+              }
+            : null,
     };
 }
 
-export async function GET(_req: NextRequest, {params}: {params: {id: string}}) {
+export async function GET(_req: NextRequest, {params}: TaskRouteContext) {
     await simulateDelay();
-    const task = db.tasks.find((t) => t.id === params.id);
-    if (!task)
-        return NextResponse.json({data: null, error: {message: "Task not found", code: "NOT_FOUND"}}, {status: 404});
-    return NextResponse.json({data: buildPopulated(task), error: null});
+
+    const {id} = await params;
+
+    const task = db.tasks.find((t) => t.id === id);
+
+    if (!task) {
+        return NextResponse.json(
+            {
+                data: null,
+                error: {
+                    message: "Task not found",
+                    code: "NOT_FOUND",
+                },
+            },
+            {status: 404}
+        );
+    }
+
+    return NextResponse.json({
+        data: buildPopulated(task),
+        error: null,
+    });
 }
 
-export async function PATCH(req: NextRequest, {params}: {params: {id: string}}) {
+export async function PATCH(req: NextRequest, {params}: TaskRouteContext) {
     await simulateDelay();
-    const index = db.tasks.findIndex((t) => t.id === params.id);
-    if (index === -1)
-        return NextResponse.json({data: null, error: {message: "Task not found", code: "NOT_FOUND"}}, {status: 404});
+
+    const {id} = await params;
+
+    const index = db.tasks.findIndex((t) => t.id === id);
+
+    if (index === -1) {
+        return NextResponse.json(
+            {
+                data: null,
+                error: {
+                    message: "Task not found",
+                    code: "NOT_FOUND",
+                },
+            },
+            {status: 404}
+        );
+    }
+
     const body = await req.json();
     const parsed = updateTaskSchema.safeParse(body);
+
     if (!parsed.success) {
         return NextResponse.json(
             {
@@ -42,7 +90,13 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}) 
             {status: 422}
         );
     }
-    db.tasks[index] = {...db.tasks[index], ...parsed.data, updatedAt: new Date().toISOString()};
+
+    db.tasks[index] = {
+        ...db.tasks[index],
+        ...parsed.data,
+        updatedAt: new Date().toISOString(),
+    };
+
     logActivity({
         action: "updated",
         message: `Task '${db.tasks[index].title}' was updated`,
@@ -50,15 +104,35 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}) 
         entityId: db.tasks[index].id,
         actorId: "u1",
     });
-    return NextResponse.json({data: buildPopulated(db.tasks[index]), error: null});
+
+    return NextResponse.json({
+        data: buildPopulated(db.tasks[index]),
+        error: null,
+    });
 }
 
-export async function DELETE(_req: NextRequest, {params}: {params: {id: string}}) {
+export async function DELETE(_req: NextRequest, {params}: TaskRouteContext) {
     await simulateDelay();
-    const index = db.tasks.findIndex((t) => t.id === params.id);
-    if (index === -1)
-        return NextResponse.json({data: null, error: {message: "Task not found", code: "NOT_FOUND"}}, {status: 404});
+
+    const {id} = await params;
+
+    const index = db.tasks.findIndex((t) => t.id === id);
+
+    if (index === -1) {
+        return NextResponse.json(
+            {
+                data: null,
+                error: {
+                    message: "Task not found",
+                    code: "NOT_FOUND",
+                },
+            },
+            {status: 404}
+        );
+    }
+
     const [deleted] = db.tasks.splice(index, 1);
+
     logActivity({
         action: "deleted",
         message: `Task '${deleted.title}' was deleted`,
@@ -66,5 +140,11 @@ export async function DELETE(_req: NextRequest, {params}: {params: {id: string}}
         entityId: deleted.id,
         actorId: "u1",
     });
-    return NextResponse.json({data: {id: deleted.id}, error: null});
+
+    return NextResponse.json({
+        data: {
+            id: deleted.id,
+        },
+        error: null,
+    });
 }
