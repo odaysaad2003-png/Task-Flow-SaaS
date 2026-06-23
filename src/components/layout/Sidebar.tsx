@@ -28,13 +28,10 @@ const roleLabelMap: Record<string, string> = {
   viewer: "مشاهد",
 };
 
-const roleColorMap: Record
-  string,
-  "default" | "secondary" | "outline"
-> = {
-  admin: "default",
-  member: "secondary",
-  viewer: "outline",
+const roleColorMap: Record<string, "default" | "secondary" | "outline"> = {
+    admin: "default",
+    manager: "secondary",
+    member: "outline",
 };
 
 function getInitials(name: string) {
