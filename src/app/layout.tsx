@@ -1,19 +1,24 @@
 import type {Metadata} from "next";
-import {Inter} from "next/font/google";
 import "./globals.css";
 import {AppProviders} from "@/components/providers/app-providers";
 
-const inter = Inter({subsets: ["latin"]});
-
 export const metadata: Metadata = {
-    title: "TaskFlow — إدارة المشاريع والفرق",
-    description: "نظام SaaS متكامل لإدارة المشاريع والمهام والفرق",
+    title: {
+        default: "TaskFlow — إدارة المشاريع والفرق",
+        template: "%s | TaskFlow",
+    },
+    description: "نظام SaaS متكامل لإدارة المشاريع والمهام والفرق.",
+    applicationName: "TaskFlow",
 };
 
-export default function RootLayout({children}: {children: React.ReactNode}) {
+type RootLayoutProps = Readonly<{
+    children: React.ReactNode;
+}>;
+
+export default function RootLayout({children}: RootLayoutProps) {
     return (
         <html lang="ar" dir="rtl" suppressHydrationWarning>
-            <body className={inter.className}>
+            <body className="min-h-screen bg-background font-sans antialiased">
                 <AppProviders>{children}</AppProviders>
             </body>
         </html>
