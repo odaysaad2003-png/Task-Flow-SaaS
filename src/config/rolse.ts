@@ -6,9 +6,15 @@ export const PERMISSIONS = {
     "project:delete": ["admin"],
     "task:create": ["admin", "member"],
     "task:delete": ["admin", "member"],
+    "client:create": ["admin", "member"],
     "client:delete": ["admin"],
+    "team:manage": ["admin"],
+    "settings:edit": ["admin", "member"],
 } as const;
 
-export function can(role: Role, permission: keyof typeof PERMISSIONS): boolean {
+// ← مُضاف: type مستخرج من الـ PERMISSIONS
+export type Permission = keyof typeof PERMISSIONS;
+
+export function can(role: Role, permission: Permission): boolean {
     return (PERMISSIONS[permission] as readonly Role[]).includes(role);
 }
