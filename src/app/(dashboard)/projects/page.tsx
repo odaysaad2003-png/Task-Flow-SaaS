@@ -1,10 +1,11 @@
-import {ListPageSkeleton} from "@/components/shared/PageSkeleton";
+import type {Metadata} from "next";
+import ProjectsvewPage from "@/features/projects/components/project-vew-page";
+
+export const metadata: Metadata = {
+    title: "المشاريع | TaskFlow",
+    description: "إدارة المشاريع، متابعة الحالة، الأولوية، الفريق والعملاء داخل TaskFlow.",
+};
 
 export default function ProjectsPage() {
-    return (
-        <div>
-            <p className="text-xs text-muted-foreground mb-6">🚧 Sprint 4 سيبني هذه الصفحة — إدارة المشاريع</p>
-            <ListPageSkeleton />
-        </div>
-    );
+    return <ProjectsvewPage />;
 }
