@@ -2,7 +2,7 @@ import type { User } from "@/features/auth/types/auth.type";
 import type { Client } from "@/features/clients/types/client.type";
 
 export type ProjectStatus = "planning" | "active" | "on-hold" | "completed";
-export type ProjectPriority = "low" | "medium" | "high";
+export type ProjectPriority = "low" | "medium" | "high"; 
 
 export interface Project {
   id: string;
