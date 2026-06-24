@@ -2,15 +2,52 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+@font-face {
+  font-family: "TaskFlow Sans";
+  src: url("/fonts/ibm-plex-sans-arabic/IBMPlexSansArabic-Regular.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TaskFlow Sans";
+  src: url("/fonts/ibm-plex-sans-arabic/IBMPlexSansArabic-Medium.woff2")
+    format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TaskFlow Sans";
+  src: url("/fonts/ibm-plex-sans-arabic/IBMPlexSansArabic-SemiBold.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TaskFlow Sans";
+  src: url("/fonts/ibm-plex-sans-arabic/IBMPlexSansArabic-Bold.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: var(--background);
+  
+ --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  --font-sans: Arial, Tahoma, "Segoe UI", sans-serif;
-  --font-mono: "Courier New", Consolas, monospace;
-  --font-heading: Arial, Tahoma, "Segoe UI", sans-serif;
+  --font-sans: var(--font-app);
+  --font-heading: var(--font-heading);
+  --font-mono: var(--font-mono);
 
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
@@ -61,6 +98,19 @@
 }
 
 :root {
+  --font-app: "TaskFlow Sans", "IBM Plex Sans Arabic", "Segoe UI", Tahoma,
+    Arial, sans-serif;
+  --font-heading: "TaskFlow Sans", "IBM Plex Sans Arabic", "Segoe UI", Tahoma,
+    Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", Consolas, "Courier New",
+    monospace;
+
+    
+  --font-app: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, Arial, sans-serif;
+  --font-heading: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", Consolas, "Courier New", monospace;
+
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
 
@@ -165,6 +215,17 @@
 
   body {
     @apply min-h-screen bg-background text-foreground;
+    font-feature-settings: "kern";
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+    letter-spacing: -0.015em;
   }
 
   button,
