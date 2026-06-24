@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "incremental": false
+  },
+  "include": [
+    "next-env.d.ts",
+    "src/app/api/dashboard/stats/route.ts",
+    "src/features/dashboard/types/dashboard.type.ts",
+    "src/features/dashboard/services/dashboard.api.ts",
+    "src/features/dashboard/hooks/use-dashboard-stats.ts",
+    "src/features/dashboard/hooks/use-recent-projects.ts",
+    "src/features/dashboard/hooks/use-recent-tasks.ts",
+    "src/features/dashboard/hooks/use-activity-feed.ts",
+    "src/features/dashboard/components/StatsCard.tsx",
+    "src/features/dashboard/components/StatsGrid.tsx",
+    "src/features/dashboard/components/RecentProjects.tsx",
+    "src/features/dashboard/components/RecentTasks.tsx",
+    "src/features/dashboard/components/ActivityFeed.tsx",
+    "src/features/dashboard/components/TaskStatusChart.tsx",
+    "src/features/dashboard/components/WelcomeBanner.tsx",
+    "src/app/(dashboard)/dashboard/page.tsx"
+  ],
+  "exclude": ["node_modules", ".next"]
+}

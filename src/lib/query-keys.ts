@@ -17,5 +17,12 @@ export const queryKeys = {
         lists: () => [...queryKeys.clients.all, "list"] as const,
         detail: (id: string) => [...queryKeys.clients.all, "detail", id] as const,
     },
+    dashboard: {
+        all: ["dashboard"] as const,
+        stats: () => [...queryKeys.dashboard.all, "stats"] as const,
+        recentProjects: () => [...queryKeys.dashboard.all, "recent-projects"] as const,
+        recentTasks: () => [...queryKeys.dashboard.all, "recent-tasks"] as const,
+        activityFeed: () => [...queryKeys.dashboard.all, "activity-feed"] as const,
+    },
     // سنكمل users, comments, activity, dashboard في الـ Sprints القادمة عند الحاجة
 } as const;
