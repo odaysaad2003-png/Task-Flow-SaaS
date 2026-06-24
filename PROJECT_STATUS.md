@@ -168,8 +168,27 @@ GET  /api/auth/me      ✅
 ---
 
 ### ⏳ Sprint 5 — Project Details Page
-**الحالة:** لم يبدأ بعد
+| Sprint الحالي | 4 → 5 |
+| الاكتمال الكلي | 40% → 50% |
+| الملفات المنشأة | ~55 → ~80 ملف |
 
+### ✅ Sprint 4 — Projects Feature
+الملفات المضافة:
+- src/app/api/clients/[id]/route.ts
+- src/features/projects/constants/project.constants.ts
+- src/features/projects/hooks/use-projects.ts
+- src/features/projects/hooks/use-project.ts
+- src/features/projects/hooks/use-create-project.ts
+- src/features/projects/hooks/use-update-project.ts
+- src/features/projects/hooks/use-delete-project.ts
+- src/features/projects/components/ProjectStatusBadge.tsx
+- src/features/projects/components/ProjectPriorityBadge.tsx
+- src/features/projects/components/ProjectCard.tsx
+- src/features/projects/components/ProjectFilters.tsx
+- src/features/projects/components/ProjectFormDialog.tsx
+- src/features/projects/components/DeleteProjectDialog.tsx
+- src/components/shared/Pagination.tsx
+- src/app/(dashboard)/projects/page.tsx
 المخطط:
 - Tabs: Overview / Tasks / Comments / Activity
 - Lazy loading لكل Tab
