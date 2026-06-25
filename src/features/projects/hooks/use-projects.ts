@@ -4,7 +4,7 @@ import {queryKeys} from "@/lib/query-keys";
 import {projectApi} from "@/features/projects/services/project.api";
 import type {ProjectFilters} from "@/features/projects/services/project.api";
 
-// الـ hook يقرأ الفلاتر من الـ URL مباشرة — URL هو مصدر الحقيقة الوحيد
+// Hook لجلب قائمة المشاريع
 export function useProjects() {
     const searchParams = useSearchParams();
 
@@ -21,6 +21,16 @@ export function useProjects() {
         queryKey: queryKeys.projects.list(filters),
         queryFn: () => projectApi.getAll(filters),
         staleTime: 30 * 1000,
-        placeholderData: (prev) => prev, // يحافظ على البيانات القديمة أثناء تحميل الجديدة
+        placeholderData: (prev) => prev,
+    });
+}
+
+// Hook لجلب مشروع واحد حسب id
+export function useProject(id: string) {
+    return useQuery({
+        queryKey: queryKeys.projects.detail(id),
+        queryFn: () => projectApi.getById(id),
+        enabled: Boolean(id),
+        staleTime: 30 * 1000,
     });
 }
