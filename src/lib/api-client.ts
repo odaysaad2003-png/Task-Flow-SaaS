@@ -1,4 +1,4 @@
-import type {ApiError} from "@/types/shared.type";
+import type {ApiError, PaginatedResponse} from "@/types/shared.type";
 
 class ApiClientError extends Error {
     code: string;
@@ -41,8 +41,32 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
     return json.data as T;
 }
 
+async function requestPaginated<T>(path: string, options: RequestOptions = {}): Promise<PaginatedResponse<T>> {
+    const {params, headers, ...rest} = options;
+
+    const res = await fetch(buildUrl(path, params), {
+        ...rest,
+        headers: {"Content-Type": "application/json", ...headers},
+    });
+
+    const json = await res.json();
+
+    if (!res.ok) {
+        throw new ApiClientError(json.error, res.status);
+    }
+
+    return {
+        data: json.data as T[],
+        meta: json.meta,
+        error: null,
+    };
+}
+
 export const apiClient = {
-    get: <T>(path: string, options?: RequestOptions) => request<T>(path, {...options, method: "GET"}),  
+    get: <T>(path: string, options?: RequestOptions) => request<T>(path, {...options, method: "GET"}),
+
+    getPaginated: <T>(path: string, options?: RequestOptions) =>
+        requestPaginated<T>(path, {...options, method: "GET"}),  
 
     post: <T>(path: string, body: unknown, options?: RequestOptions) =>
         request<T>(path, {...options, method: "POST", body: JSON.stringify(body)}),

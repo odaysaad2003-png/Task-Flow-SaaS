@@ -2,7 +2,7 @@
 
 import {useState} from "react";
 import Link from "next/link";
-import {ChevronRight, Pencil, Trash2, Loader2, MoreHorizontal} from "lucide-react";
+import {ChevronRight, Pencil, Trash2, MoreHorizontal} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -32,7 +32,7 @@ export function ProjectDetailHeader({project}: ProjectDetailHeaderProps) {
             <div className="space-y-4">
                 {/* Breadcrumb */}
                 <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                    <Link href="/project" className="hover:text-foreground transition-colors">
+                    <Link href="/projects" className="hover:text-foreground transition-colors">
                         المشاريع
                     </Link>
                     <ChevronRight className="h-4 w-4" />

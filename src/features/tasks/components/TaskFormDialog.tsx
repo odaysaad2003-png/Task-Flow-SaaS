@@ -11,7 +11,11 @@ import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {Label} from "@/components/ui/label";
 import {Textarea} from "@/components/ui/textarea";
-import {createTaskSchema, type CreateTaskInput} from "@/features/tasks/schemas/task.schema";
+import {createTaskSchema} from "@/features/tasks/schemas/task.schema";
+import type {z} from "zod";
+
+type TaskFormInput = z.input<typeof createTaskSchema>;
+type TaskFormOutput = z.output<typeof createTaskSchema>;
 import type {PopulatedTask} from "@/features/tasks/types/task.type";
 import {useCreateTask} from "@/features/tasks/hooks/use-create-task";
 import {useUpdateTask} from "@/features/tasks/hooks/use-update-task";
@@ -43,7 +47,7 @@ export function TaskFormDialog({open, onOpenChange, projectId, task}: TaskFormDi
         enabled: open,
     });
 
-    const form = useForm<CreateTaskInput>({
+    const form = useForm<TaskFormInput, unknown, TaskFormOutput>({
         resolver: zodResolver(createTaskSchema),
         defaultValues: {
             title: "",
@@ -80,7 +84,7 @@ export function TaskFormDialog({open, onOpenChange, projectId, task}: TaskFormDi
         }
     }, [open, task, form, projectId]);
 
-    function onSubmit(data: CreateTaskInput) {
+    function onSubmit(data: TaskFormOutput) {
         const payload = {
             ...data,
             dueDate: data.dueDate ? new Date(data.dueDate).toISOString() : null,
@@ -138,7 +142,7 @@ export function TaskFormDialog({open, onOpenChange, projectId, task}: TaskFormDi
                             <Label>الحالة *</Label>
                             <Select
                                 value={form.watch("status")}
-                                onValueChange={(v) => form.setValue("status", v as CreateTaskInput["status"])}
+                                onValueChange={(v) => form.setValue("status", v as TaskFormInput["status"])}
                                 disabled={isPending}
                             >
                                 <SelectTrigger>
@@ -160,7 +164,7 @@ export function TaskFormDialog({open, onOpenChange, projectId, task}: TaskFormDi
                             <Label>الأولوية *</Label>
                             <Select
                                 value={form.watch("priority")}
-                                onValueChange={(v) => form.setValue("priority", v as CreateTaskInput["priority"])}
+                                onValueChange={(v) => form.setValue("priority", v as TaskFormInput["priority"])}
                                 disabled={isPending}
                             >
                                 <SelectTrigger>

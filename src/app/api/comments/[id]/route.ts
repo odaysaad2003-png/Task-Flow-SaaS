@@ -2,10 +2,15 @@ import {NextRequest, NextResponse} from "next/server";
 import {db} from "@/lib/mock-db";
 import {simulateDelay, logActivity} from "@/lib/mock-db.helpers";
 
-export async function DELETE(_req: NextRequest, {params}: {params: {id: string}}) {
+type RouteContext = {
+    params: Promise<{id: string}>;
+};
+
+export async function DELETE(_req: NextRequest, context: RouteContext) {
+    const {id} = await context.params;
     await simulateDelay(250);
 
-    const index = db.comments.findIndex((c) => c.id === params.id);
+    const index = db.comments.findIndex((c) => c.id === id);
 
     if (index === -1) {
         return NextResponse.json({data: null, error: {message: "التعليق غير موجود", code: "NOT_FOUND"}}, {status: 404});

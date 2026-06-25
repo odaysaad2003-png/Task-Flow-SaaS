@@ -3,6 +3,8 @@ import {useSearchParams} from "next/navigation";
 import {queryKeys} from "@/lib/query-keys";
 import {projectApi} from "@/features/projects/services/project.api";
 import type {ProjectFilters} from "@/features/projects/services/project.api";
+import type {PopulatedProject} from "@/features/projects/types/project.type";
+import type {PaginatedResponse} from "@/types/shared.type";
 
 // Hook لجلب قائمة المشاريع
 export function useProjects() {
@@ -17,7 +19,7 @@ export function useProjects() {
         limit: 9,
     };
 
-    return useQuery({
+    return useQuery<PaginatedResponse<PopulatedProject>>({
         queryKey: queryKeys.projects.list(filters),
         queryFn: () => projectApi.getAll(filters),
         staleTime: 30 * 1000,

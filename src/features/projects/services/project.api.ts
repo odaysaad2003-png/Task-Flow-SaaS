@@ -1,7 +1,6 @@
 import { apiClient } from "@/lib/api-client";
 import type { PopulatedProject } from "@/features/projects/types/project.type";
 import type { CreateProjectInput, UpdateProjectInput } from "@/features/projects/schemas/project.schema";
-import type { PaginatedResponse } from "@/types/shared.type";
 
 export interface ProjectFilters extends Record<string, string | number | boolean | undefined> {
     status?: string;
@@ -14,7 +13,7 @@ export interface ProjectFilters extends Record<string, string | number | boolean
 
 export const projectApi = {
   getAll: (filters: ProjectFilters = {}) =>
-    apiClient.get<PaginatedResponse<PopulatedProject>>("/api/projects", { params: filters }),
+    apiClient.getPaginated<PopulatedProject>("/api/projects", { params: filters }),
 
   getById: (id: string) =>
     apiClient.get<PopulatedProject>(`/api/projects/${id}`),

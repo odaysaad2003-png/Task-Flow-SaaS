@@ -47,9 +47,8 @@ export default function ProjectsvewPage() {
         return <ErrorState title="تعذّر تحميل المشاريع" message="تحقق من اتصالك وأعد المحاولة" onRetry={refetch} />;
     }
 
-    // استخراج البيانات من الـ response (PaginatedResponse)
-    const projects = (data as unknown as {data: PopulatedProject[]})?.data ?? [];
-    const meta = (data as unknown as {meta: {page: number; limit: number; total: number; totalPages: number}})?.meta;
+    const projects = data?.data ?? [];
+    const meta = data?.meta;
 
     return (
         <motion.div initial={{opacity: 0}} animate={{opacity: 1}} className="space-y-6 max-w-7xl mx-auto">

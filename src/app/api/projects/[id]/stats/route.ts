@@ -2,16 +2,21 @@ import {NextRequest, NextResponse} from "next/server";
 import {db} from "@/lib/mock-db";
 import {simulateDelay} from "@/lib/mock-db.helpers";
 
-export async function GET(_req: NextRequest, {params}: {params: {id: string}}) {
+type RouteContext = {
+    params: Promise<{id: string}>;
+};
+
+export async function GET(_req: NextRequest, context: RouteContext) {
+    const {id} = await context.params;
     await simulateDelay(200);
 
-    const project = db.projects.find((p) => p.id === params.id);
+    const project = db.projects.find((p) => p.id === id);
 
     if (!project) {
         return NextResponse.json({data: null, error: {message: "المشروع غير موجود", code: "NOT_FOUND"}}, {status: 404});
     }
 
-    const tasks = db.tasks.filter((t) => t.projectId === params.id);
+    const tasks = db.tasks.filter((t) => t.projectId === id);
     const totalTasks = tasks.length;
     const doneTasks = tasks.filter((t) => t.status === "done").length;
     const overdueTasks = tasks.filter(
